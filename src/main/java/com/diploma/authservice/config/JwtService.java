@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    private static final String SECRET_KEY = "A7aFcMf/bjtK8SYHAXenI/qF7XwgFzYAYflmBK0e3h/iPQimTnkITOqsbSWxiy3ooHT5/F2BZ76v0Sgu385KUxc0rRs5YrUbNO247yQn/P9RnjXk47NSIK3orXm/zw2WjP7orwIHuxhup9WcJg2SwcnpGn2x4PHVBZE5jTwgP5v20fXWIQHO3qUnIptmWDi2hgjcCWOmr7pzNhLU+Q1zDbKglG9IneTO4rAyfO6uLqJfX1nVGPvSlfcbYpKwcmwH8+vMzTkpfHMThYV+lE0lB2sXmMUYGMxFq2vQzJSRl6QUrVMw2y0FMOfh7mphpn7rCONLlYrf5DbNiHfxzy3JV2nzs85qzozatgCEKja47yE=\n";
+    private static final String SECRET_KEY = "mXCtTiN4mP/ldpEe7R1fjZJ3Oc3qDya9/HSxL09/JA6CTJRi9IyfiiPsHYBi5IaoizSxZcLOTOwvkRLxu0Il0g==";
 
     public String extractUserEmail(String jwtToken) {
         return extractClaim(jwtToken, Claims::getSubject);
@@ -63,12 +64,12 @@ public class JwtService {
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJwt(jwtToken)
+                .parseClaimsJws(jwtToken.split(" ")[1].trim())
                 .getBody();
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY.trim());
         return Keys.hmacShaKeyFor(keyBytes);
     }
 }
