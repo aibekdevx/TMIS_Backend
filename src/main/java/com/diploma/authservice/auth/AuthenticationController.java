@@ -2,6 +2,7 @@ package com.diploma.authservice.auth;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +20,9 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest request
     ){
-        return ResponseEntity.ok(authenticationService.register(request));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                                    .body(authenticationService
+                                    .register(request));
     }
 
     @PostMapping("/authenticate")

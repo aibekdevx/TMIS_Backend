@@ -1,5 +1,6 @@
 package com.diploma.authservice.user;
 
+import com.diploma.authservice.entity.Teachers;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer userId;
     private String email;
     private String password;
     private String firstName;
@@ -32,6 +33,9 @@ public class User implements UserDetails {
     private Role role;
     private Date createdAt;
     private Date updatedAt;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Teachers teacher;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

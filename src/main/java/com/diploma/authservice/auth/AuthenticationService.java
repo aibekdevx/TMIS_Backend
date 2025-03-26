@@ -5,6 +5,8 @@ import com.diploma.authservice.user.Role;
 import com.diploma.authservice.user.User;
 import com.diploma.authservice.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +22,16 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                            AuthenticationResponse
+                                    .builder()
+                                    .token(null) // или другое информативное поле
+                                    .build()
+                    ).getBody();
+        }
+
         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -27,6 +39,7 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.USER)
                 .build();
+        
         userRepository.save(user);
         var token = jwtService.generateToken(user);
         return AuthenticationResponse.builder()
