@@ -10,7 +10,8 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "teacher_discipline") // если таблица в БД называется именно teacher_discipline
-public class TeacherDiscipline {
+public class
+TeacherDiscipline {
 
     @EmbeddedId
     private TeacherDisciplineId id;

@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/teachers/{teacherId}/academic-degrees")
+@RequestMapping("/api/v1/teachers/{teacherId}/academicDegrees")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class AcademicDegreeController {
 
     private final AcademicDegreeService academicDegreeService;

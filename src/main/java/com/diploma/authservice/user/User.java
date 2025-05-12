@@ -1,11 +1,9 @@
 package com.diploma.authservice.user;
 
 import com.diploma.authservice.entity.Teachers;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,17 +27,21 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String middleName;
+
     @Enumerated(EnumType.STRING)
+    @NonNull
     private Role role;
     private Date createdAt;
     private Date updatedAt;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonBackReference
     private Teachers teacher;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

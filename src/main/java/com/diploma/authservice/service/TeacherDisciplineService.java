@@ -1,6 +1,7 @@
 package com.diploma.authservice.service;
 
 import com.diploma.authservice.dto.TeacherDisciplineDTO;
+import com.diploma.authservice.entity.Discipline;
 
 import java.util.List;
 
@@ -20,4 +21,6 @@ public interface TeacherDisciplineService {
 
     // Удалить дисциплину у учителя
     void removeTeacherDiscipline(Integer teacherId, Integer disciplineId);
+
+    List<TeacherDisciplineDTO> getAllByDisciplineId(Integer disciplineId);
 }

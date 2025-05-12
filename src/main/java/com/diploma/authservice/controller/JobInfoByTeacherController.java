@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/teachers/{teacherId}/jobinfo")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class JobInfoByTeacherController {
 
     private final JobInfoService jobInfoService;

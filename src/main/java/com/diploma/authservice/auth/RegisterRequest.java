@@ -1,16 +1,16 @@
 package com.diploma.authservice.auth;
 
+import com.diploma.authservice.user.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
-
     @NotBlank(message = "First name must not be blank")
     private String firstName;
 
@@ -23,4 +23,8 @@ public class RegisterRequest {
 
     @NotBlank(message = "Password must not be blank")
     private String password;
+
+    @NotNull(message = "Role must be specified")
+    private Role role;
+
 }

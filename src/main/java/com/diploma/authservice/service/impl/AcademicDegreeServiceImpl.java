@@ -98,6 +98,13 @@ public class AcademicDegreeServiceImpl implements AcademicDegreeService {
         academicDegreeRepository.delete(degree);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getAllDistinctDegreeTypes() {
+        return academicDegreeRepository.findDistinctDegreeTypes();
+    }
+
+
     // =========================================
     // МАППИНГ: ENTITY -> DTO
     // =========================================

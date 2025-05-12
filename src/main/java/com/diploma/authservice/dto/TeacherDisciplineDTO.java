@@ -13,7 +13,7 @@ public class TeacherDisciplineDTO {
 
     private Integer teacherId;
     private Integer disciplineId;
-
+    private String disciplineName;
     private Date createdAt;
     private Date updatedAt;
     // private String createdBy;

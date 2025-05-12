@@ -18,7 +18,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     private static final String SECRET_KEY = "mXCtTiN4mP/ldpEe7R1fjZJ3Oc3qDya9/HSxL09/JA6CTJRi9IyfiiPsHYBi5IaoizSxZcLOTOwvkRLxu0Il0g==";
-
+ 
     public String extractUserEmail(String jwtToken) {
         return extractClaim(jwtToken, Claims::getSubject);
     }
@@ -64,7 +64,7 @@ public class JwtService {
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
                 .build()
-                .parseClaimsJws(jwtToken.split(" ")[1].trim())
+                .parseClaimsJws(jwtToken.trim())
                 .getBody();
     }
 

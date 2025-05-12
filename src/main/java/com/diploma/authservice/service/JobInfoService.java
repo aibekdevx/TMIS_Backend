@@ -18,6 +18,10 @@ public interface JobInfoService {
     // Обновить JobInfo (jobId) для конкретного teacherId
     JobInfoDTO updateJobInfoByTeacher(Integer teacherId, Integer jobId, JobInfoDTO dto);
 
+
+    List<String> getAllDistinctOrganizations();
+
+
     // Удалить JobInfo (jobId) для конкретного teacherId
     void deleteJobInfoByTeacher(Integer teacherId, Integer jobId);
 }

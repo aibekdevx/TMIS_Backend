@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/teachers")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class TeacherController {
 
     private final TeacherService teacherService;
@@ -27,10 +28,16 @@ public class TeacherController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping()
-    public ResponseEntity<List<TeacherDTO>> getAllTeachers() {
-        List<TeacherDTO> teachers = teacherService.getAllTeachers();
-        return ResponseEntity.ok(teachers);
+    @GetMapping
+    public ResponseEntity<List<TeacherDTO>> getTeachersWithFilters(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String organization,
+            @RequestParam(required = false) String degree,
+            @RequestParam(required = false, defaultValue = "0") int page,
+            @RequestParam(required = false, defaultValue = "10") int size
+    ) {
+        List<TeacherDTO> filtered = teacherService.getTeachersWithFilters(search, organization, degree, page, size);
+        return ResponseEntity.ok(filtered);
     }
 
     @PutMapping("/{id}")
@@ -45,4 +52,11 @@ public class TeacherController {
         teacherService.deleteTeacher(teacherId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> getTotalTeachersCount() {
+        long count = teacherService.getTotalCount();
+        return ResponseEntity.ok(count);
+    }
+
 }

@@ -12,6 +12,8 @@ public interface AcademicDegreeService {
     // Получить список AcademicDegree по teacherId
     List<AcademicDegreeDTO> getAllAcademicDegreesByTeacher(Integer teacherId);
 
+    List<String> getAllDistinctDegreeTypes();
+
     // Получить одну запись AcademicDegree по ее ID, но в контексте teacherId
     AcademicDegreeDTO getAcademicDegreeByTeacher(Integer teacherId, Integer degreeId);
 

@@ -44,6 +44,14 @@ public class JobInfoServiceImpl implements JobInfoService {
         return mapToDTO(saved);
     }
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<String> getAllDistinctOrganizations() {
+        return jobInfoRepository.findDistinctOrganizationNames();
+    }
+
+
     // ================= READ: GET ALL BY TEACHER =================
     @Override
     @Transactional(readOnly = true)

@@ -1,3 +1,4 @@
+// src/main/java/com/diploma/authservice/service/impl/TeacherDisciplineServiceImpl.java
 package com.diploma.authservice.service.impl;
 
 import com.diploma.authservice.dto.TeacherDisciplineDTO;
@@ -27,33 +28,26 @@ public class TeacherDisciplineServiceImpl implements TeacherDisciplineService {
 
     @Override
     public TeacherDisciplineDTO addDisciplineToTeacher(Integer teacherId, TeacherDisciplineDTO dto) {
-        // Ищем учителя
         Teachers teacher = teacherRepository.findById(teacherId)
                 .orElseThrow(() -> new RuntimeException("Teacher not found: " + teacherId));
-
-        // Ищем дисциплину
         Discipline discipline = disciplineRepository.findById(dto.getDisciplineId())
                 .orElseThrow(() -> new RuntimeException("Discipline not found: " + dto.getDisciplineId()));
 
-        // Создаём объект-связку
-        TeacherDisciplineId tdId = new TeacherDisciplineId(teacherId, dto.getDisciplineId());
-        TeacherDiscipline td = new TeacherDiscipline();
-        td.setId(tdId);
+        TeacherDiscipline td = toEntity(dto);
         td.setTeacher(teacher);
         td.setDiscipline(discipline);
-        td.setCreatedAt(dto.getCreatedAt());
-        td.setUpdatedAt(dto.getUpdatedAt());
 
         TeacherDiscipline saved = teacherDisciplineRepository.save(td);
-        return mapToDTO(saved);
+        return toDto(saved);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<TeacherDisciplineDTO> getAllDisciplinesByTeacher(Integer teacherId) {
-        List<TeacherDiscipline> list = teacherDisciplineRepository.findByTeacher_TeacherId(teacherId);
-        return list.stream()
-                .map(this::mapToDTO)
+        return teacherDisciplineRepository
+                .findByTeacher_TeacherId(teacherId)
+                .stream()
+                .map(this::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -64,7 +58,7 @@ public class TeacherDisciplineServiceImpl implements TeacherDisciplineService {
         TeacherDiscipline td = teacherDisciplineRepository.findById(tdId)
                 .orElseThrow(() -> new RuntimeException(
                         "Record not found for teacherId=" + teacherId + " and disciplineId=" + disciplineId));
-        return mapToDTO(td);
+        return toDto(td);
     }
 
     @Override
@@ -74,12 +68,9 @@ public class TeacherDisciplineServiceImpl implements TeacherDisciplineService {
                 .orElseThrow(() -> new RuntimeException(
                         "Record not found for teacherId=" + teacherId + " and disciplineId=" + disciplineId));
 
-        // Обновляем только те поля, которые вам нужны
         td.setCreatedAt(dto.getCreatedAt());
         td.setUpdatedAt(dto.getUpdatedAt());
-
-        TeacherDiscipline updated = teacherDisciplineRepository.save(td);
-        return mapToDTO(updated);
+        return toDto(teacherDisciplineRepository.save(td));
     }
 
     @Override
@@ -88,20 +79,42 @@ public class TeacherDisciplineServiceImpl implements TeacherDisciplineService {
         TeacherDiscipline td = teacherDisciplineRepository.findById(tdId)
                 .orElseThrow(() -> new RuntimeException(
                         "Record not found for teacherId=" + teacherId + " and disciplineId=" + disciplineId));
-
         teacherDisciplineRepository.delete(td);
     }
 
-    // =========================================
-    // MAP entity -> dto
-    // =========================================
-    private TeacherDisciplineDTO mapToDTO(TeacherDiscipline td) {
+    @Transactional(readOnly = true)
+    public List<Discipline> getAllDisciplines() {
+        return disciplineRepository.findAll();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<TeacherDisciplineDTO> getAllByDisciplineId(Integer disciplineId) {
+        return teacherDisciplineRepository
+                .findByDiscipline_DisciplineId(disciplineId)
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
+
+    // ====================================
+    // Private mapping methods
+    // ====================================
+    private TeacherDisciplineDTO toDto(TeacherDiscipline td) {
         TeacherDisciplineDTO dto = new TeacherDisciplineDTO();
         dto.setTeacherId(td.getTeacher().getTeacherId());
         dto.setDisciplineId(td.getDiscipline().getDisciplineId());
+        dto.setDisciplineName(td.getDiscipline().getDisciplineName());
         dto.setCreatedAt(td.getCreatedAt());
         dto.setUpdatedAt(td.getUpdatedAt());
         return dto;
     }
-}
 
+    private TeacherDiscipline toEntity(TeacherDisciplineDTO dto) {
+        TeacherDiscipline td = new TeacherDiscipline();
+        td.setId(new TeacherDisciplineId(dto.getTeacherId(), dto.getDisciplineId()));
+        td.setCreatedAt(dto.getCreatedAt());
+        td.setUpdatedAt(dto.getUpdatedAt());
+        return td;
+    }
+}

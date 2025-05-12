@@ -14,6 +14,8 @@ public interface TeacherDisciplineRepository
     // Получить все дисциплины, связанные с конкретным учителем
     List<TeacherDiscipline> findByTeacher_TeacherId(Integer teacherId);
 
-    // Получить все записи TeacherDiscipline по ID дисциплины (если нужно)
-    // List<TeacherDiscipline> findByDisciplineDiscipline_id(Integer disciplineId);
+    // Получить все записи TeacherDiscipline по ID дисциплины
+    List<TeacherDiscipline> findByDiscipline_DisciplineId(Integer disciplineId);
+
+    // Удалён метод findAllByDisciplineId, т.к. он конфликтовал с названием поля в сущности
 }
