@@ -1,191 +1,46 @@
-# TMIS — Teacher Management Information System
+# 🎓 TMIS — Teacher Management Information System
 
-TMIS is an academic information system built to manage and store data about teachers of the Computer Engineering department.  
-The system includes a secure backend with role-based access control, and a responsive web frontend for admins and teachers.
+TMIS is a full-stack academic information system designed to manage and store teacher data within the Computer Engineering department.  
+It provides a secure **role-based** access system for admins and teachers, featuring a modern UI, modular architecture, and full CRUD capabilities.
 
 ---
 
-## 📦 Monorepo Structure
+## ✨ Key Features
 
-```
-TMIS/
-├── backend/          # Spring Boot app (AuthService)
-├── frontend/         # React.js frontend
-
-```
+- ✅ Full-stack system: Spring Boot + React
+- ✅ Modular teacher profile management
+- ✅ Secure login with JWT and role-based routing (`ADMIN`, `TEACHER`)
+- ✅ Responsive design with Tailwind CSS
+- ✅ API documentation via Swagger UI
+- ✅ Clean architecture with DTOs, services, and repositories
 
 ---
 
 ## ⚙️ Backend — Spring Boot
 
-### 🛠 Stack
+### Stack
 
-- Java 17
-- Spring Boot
-- Spring Security (JWT)
-- Spring Data JPA
+- Java 21
+- Spring Boot, Spring Security (JWT)
+- Spring Data JPA (Hibernate)
 - PostgreSQL
 - Maven
 
-### 📁 Structure
+## Functionality Overview
+### Admin Capabilities:
+  1. View all teachers
+  2. Full CRUD for teacher-related data:
+  3. Personal Info
+  4. Education
+  5. Academic Degrees & Titles
+  6. Assigned Disciplines
+  7. Job Info
+  8. Foreign Cognition / Inclusive Education
 
-```
-src/main/java/com/diploma/authservice
-├── auth          # Auth controller and JWT logic
-├── config        # Security configuration
-├── controller    # API endpoints
-├── dto           # Request/response DTOs
-├── entity        # JPA entities (User, Teacher, etc.)
-├── repository    # Spring Data JPA Repositories
-├── service       # Business logic
-├── user          # Role, User entity, and repo
-````
+### Teacher Capabilities:
+1. View and update own profile
+2. Add achievements, education entries
+3. Read-only view of discipline assignments
 
-### 🚀 Run Backend Locally
 
-1. **Go to backend folder:**
-
-```bash
-cd backend
-````
-
-2. **Set up PostgreSQL:**
-
-Create a database and update `src/main/resources/application.yml`:
-
-```yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/tmis
-    username: postgres
-    password: your_password
-```
-
-3. **Run the app:**
-
-```bash
-./mvnw spring-boot:run
-```
-
-4. **Swagger UI:**
-
-Visit [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
-
----
-
-## 🌐 Frontend — React.js
-
-### 🛠 Stack
-
-* React.js
-* React Router
-* Tailwind CSS
-* Axios
-* jwt-decode
-* React Icons
-
-### 📁 Structure
-
-```
-src/
-├── Components/
-│   ├── Tabs/                  # Teacher profile tabs
-│   ├── AddDisciplineModal/   # Modal for discipline assign
-│   ├── Sidebar, Navbar, etc. # Layout components
-├── Context/                  # Global state (auth)
-├── Pages/                    # Main UI pages
-├── Routes/                   # Route configuration
-├── App.js / index.js         # App entry
-```
-
-### 🚀 Run Frontend Locally
-
-1. **Go to frontend folder:**
-
-```bash
-cd frontend
-```
-
-2. **Install dependencies:**
-
-```bash
-npm install
-```
-
-3. **Set up environment file:**
-
-Create `.env`:
-
-```
-REACT_APP_API_URL=http://localhost:8080/api/v1
-```
-
-4. **Run the app:**
-
-```bash
-npm start
-```
-
-5. **Visit:**
-
-[http://localhost:3000](http://localhost:3000)
-
----
-
-## 🔐 Authentication Flow
-
-* JWT is issued upon login and stored in `localStorage`
-* Decoded using `jwt-decode` to get user role (`ADMIN`, `TEACHER`, etc.)
-* Protected frontend routes based on role
-* Backend verifies JWT on each request
-
----
-
-## 📑 Functionality Overview
-
-### Admin Features:
-
-* View list of all teachers
-* Add/edit/delete teacher data:
-
-  * Personal info
-  * Education
-  * Academic degrees & titles
-  * Disciplines
-  * Job info
-  * Foreign cognition / Inclusive education
-
-### Teacher Features:
-
-* View and update own profile
-* Add personal achievements, education, etc.
-* Read-only access to discipline list
-
----
-
-## 🧪 Testing
-
-* Backend: Unit tests (Spring Boot Test)
-* Frontend: Jest (basic)
-* Manual QA with Postman and UI test cases
-
----
-
-## 📸 Demo
-
----
-
-## 🧑‍💻 Team
-
-* **Aibek Shynazbek** — Backend Developer, System Architect
-* **Dimash** — Frontend Developer, Requirements & UI/UX
-* **Nurkanat** — QA Engineer, Stack Analyst, Documentation
-
----
-
-## 📄 License
-
-This project is part of a diploma thesis and not intended for commercial use.
-
-```
 
